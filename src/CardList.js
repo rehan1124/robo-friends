@@ -12,7 +12,7 @@ const CardList = ({robots}) => {
         email={users.email}/>)
     });
 
-    return <div>{htmlContent}</div>;
+    return <div data-testid="robo-friends">{htmlContent}</div>;
 }
 
 export default CardList;
