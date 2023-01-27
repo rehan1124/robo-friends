@@ -41,10 +41,7 @@ class App extends Component {
         </Scroll>
       </div>
     );
-    if (!robots.length) {
-      return <h1 className="tc">Loading ...</h1>;
-    }
-    return htmlContent;
+    return !robots.length ? <h1 className="tc">Loading ...</h1> : htmlContent;
   }
 }
 
