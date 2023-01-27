@@ -28,10 +28,9 @@ class App extends Component {
   };
 
   render() {
-    const filteredRobots = this.state.robots.filter((items) => {
-      return items.name
-        .toLowerCase()
-        .includes(this.state.searchField.toLowerCase());
+    const { robots, searchField } = this.state;
+    const filteredRobots = robots.filter((items) => {
+      return items.name.toLowerCase().includes(searchField.toLowerCase());
     });
     const htmlContent = (
       <div data-testid="app" className="tc">
@@ -42,7 +41,7 @@ class App extends Component {
         </Scroll>
       </div>
     );
-    if (this.state.robots.length === 0) {
+    if (!robots.length) {
       return <h1 className="tc">Loading ...</h1>;
     }
     return htmlContent;
