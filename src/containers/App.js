@@ -1,51 +1,43 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import CardList from "../components/CardList";
 import SearchBox from "../components/SearchBox";
 import "./App.css";
 import Scroll from "../components/Scroll";
 import ErrorBoundary from "../components/ErrorBoundary";
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      robots: [],
-      searchField: "",
-    };
-  }
+function App() {
+  const [robots, setRobots] = useState([]);
+  const [searchField, setSearchField] = useState("");
 
-  componentDidMount() {
+  useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/users")
       .then((response) => {
         return response.json();
       })
       .then((users) => {
-        this.setState({ robots: users });
+        setRobots(users);
       });
-  }
+  }, []);
 
-  onSearch = (event) => {
-    this.setState({ searchField: event.target.value });
+  const onSearch = (event) => {
+    setSearchField(event.target.value);
   };
 
-  render() {
-    const { robots, searchField } = this.state;
-    const filteredRobots = robots.filter((items) => {
-      return items.name.toLowerCase().includes(searchField.toLowerCase());
-    });
-    const htmlContent = (
-      <div data-testid="app" className="tc">
-        <h1 className="f1">RoboFriends</h1>
-        <SearchBox onSearch={this.onSearch} />
-        <Scroll>
-          <ErrorBoundary>
-            <CardList robots={filteredRobots} />
-          </ErrorBoundary>
-        </Scroll>
-      </div>
-    );
-    return !robots.length ? <h1 className="tc">Loading ...</h1> : htmlContent;
-  }
+  const filteredRobots = robots.filter((items) => {
+    return items.name.toLowerCase().includes(searchField.toLowerCase());
+  });
+  const htmlContent = (
+    <div data-testid="app" className="tc">
+      <h1 className="f1">RoboFriends</h1>
+      <SearchBox onSearch={onSearch} />
+      <Scroll>
+        <ErrorBoundary>
+          <CardList robots={filteredRobots} />
+        </ErrorBoundary>
+      </Scroll>
+    </div>
+  );
+  return !robots.length ? <h1 className="tc">Loading ...</h1> : htmlContent;
 }
 
 export default App;
